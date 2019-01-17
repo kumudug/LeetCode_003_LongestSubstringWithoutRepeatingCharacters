@@ -2,25 +2,21 @@ package com.company;
 
 
 import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.Map;
 
 class Solution {
     public int lengthOfLongestSubstring(String s) {
         int longestLength = 0;
-        Set<Character> set = new HashSet<>();
+        Map<Character, Integer> map = new HashMap<>();
         int n = s.length();
-        int i = 0, j = 0;
 
-        while(i < n && j < n) {
+        for(int i = 0, j = 0; j < n; j++) {
             Character charAtJ = s.charAt(j);
-            if(set.contains(charAtJ)) {
-                set.remove(s.charAt(i++));
-            } else {
-                set.add(charAtJ);
-                j++;
-                longestLength = Math.max(longestLength, j - i);
+            if(map.containsKey(charAtJ)) {
+                i = Math.max(i, map.get(charAtJ) + 1);
             }
+            longestLength = Math.max(longestLength, j - i + 1);
+            map.put(charAtJ, j);
         }
 
         return longestLength;
