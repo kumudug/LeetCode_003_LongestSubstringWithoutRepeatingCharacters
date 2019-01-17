@@ -2,31 +2,27 @@ package com.company;
 
 
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Set;
 
 class Solution {
     public int lengthOfLongestSubstring(String s) {
         int longestLength = 0;
-        int curCount = 0;
-        int curLoc = 0;
-        HashMap<Character, Integer> uniqueStrings = new HashMap<>();
-        char[] inputChars = s.toCharArray();
+        Set<Character> set = new HashSet<>();
+        int n = s.length();
+        int i = 0, j = 0;
 
-        while(curLoc < s.length()) {
-            char currentChar = inputChars[curLoc];
-            if(uniqueStrings.containsKey(currentChar)) {
-                if(curCount > longestLength) {
-                    longestLength = curCount;
-                }
-                curLoc = uniqueStrings.get(currentChar) + 1;
-                curCount = 0;
-                uniqueStrings.clear();
+        while(i < n && j < n) {
+            Character charAtJ = s.charAt(j);
+            if(set.contains(charAtJ)) {
+                set.remove(s.charAt(i++));
             } else {
-                uniqueStrings.put(currentChar,curLoc);
-                curCount++;
-                curLoc++;
+                set.add(charAtJ);
+                j++;
+                longestLength = Math.max(longestLength, j - i);
             }
         }
 
-        return longestLength > curCount ? longestLength : curCount;
+        return longestLength;
     }
 }
